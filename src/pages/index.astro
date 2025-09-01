@@ -1,16 +1,61 @@
 ---
-
+import Hero3DIsland from "../components/hero/Hero3DIsland";
+import ContactForm from "../components/contact/ContactForm";
+import "../styles/global.css";
+import Background3D from "../components/hero/Background3D";
+const me = {
+  name: "Nguyễn Xuân Cảm (Hudson Nguyen)",
+  title: "Fullstack Engineer",
+  best: ".NET, ReactJs, React Native",
+  edu: "FPT University",
+  work: "FPT Software · 3 years (since 2022)",
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="en" data-theme="winter">
+  <head>
+    <meta charset="utf-8" />
+    <title>{me.name} — {me.title}</title>
+    <meta
+      name="description"
+      content="Portfolio of Hudson Nguyen (Nguyễn Xuân Cảm) — Fullstack Engineer."
+    />
+  </head>
+  <body class="bg-ink text-white">
+    <!-- Three.js background -->
+    <Background3D client:load />
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-16">
+      <!-- Hero -->
+      <section class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <h1 class="text-3xl md:text-5xl font-semibold">
+            {me.name}
+          </h1>
+          <p class="text-accent text-xl">{me.title}</p>
+          <ul class="text-mist space-y-1">
+            <li><span class="text-white">Best at:</span> {me.best}</li>
+            <li><span class="text-white">Education:</span> {me.edu}</li>
+            <li><span class="text-white">Experience:</span> {me.work}</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <!-- About / introverted vibe -->
+      <section class="prose prose-invert max-w-none">
+        <h2>About</h2>
+        <p>
+          I build calm, robust systems and UIs — performance-first, with clean
+          abstractions and measurable outcomes. I like minimal aesthetics,
+          subtle motion, and clear architecture.
+        </p>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="space-y-6">
+        <h2 class="text-2xl font-semibold">Contact me</h2>
+        <ContactForm client:load />
+      </section>
+    </main>
+  </body>
 </html>
