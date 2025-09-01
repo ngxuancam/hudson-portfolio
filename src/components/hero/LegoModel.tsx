@@ -12,7 +12,7 @@ export default function LegoModel({ rotationFactor = Math.PI * 2 }: Props) {
   // gentle idle + external control
   useFrame(({ clock }) => {
     if (!group.current) return;
-    group.current.rotation.y += 0.002; // idle
+    group.current.rotation.y += rotationFactor + 0.002; // idle
   });
 
   return <primitive ref={group} object={scene} position={[0, -1.2, 0]} />;

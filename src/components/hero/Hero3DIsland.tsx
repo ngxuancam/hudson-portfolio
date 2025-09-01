@@ -1,24 +1,37 @@
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useEffect } from "react";
 import {
   Environment,
-  ScrollControls,
-  useScroll,
   OrbitControls,
   PerformanceMonitor,
 } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import LegoModel from "./LegoModel";
 import * as THREE from "three";
+import { SCROLL_EVENT, scrollEmitter } from "../../lib/events";
 
 function Rotator() {
   const group = useRef<THREE.Group>(null!);
-  const scroll = useScroll();
+  const targetRotation = useRef(0);
+  const currentRotation = useRef(0);
 
-  useFrame(() => {
+  useEffect(() => {
+    const handleScroll = (data: { scrollY: number; direction: 'up' | 'down' }) => {
+      // Calculate rotation based on scroll position
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollProgress = Math.min(data.scrollY / maxScroll, 1);
+      targetRotation.current = scrollProgress * Math.PI * 2;
+    };
+
+    scrollEmitter.on(SCROLL_EVENT, handleScroll);
+    return () => scrollEmitter.off(SCROLL_EVENT, handleScroll);
+  }, []);
+
+  useFrame((state, delta) => {
     if (!group.current) return;
-    const t = scroll.offset; // 0..1 scroll
-    group.current.rotation.y = t * Math.PI * 2; // rotate with scroll
+    // Smooth rotation
+    currentRotation.current += (targetRotation.current - currentRotation.current) * 0.1;
+    group.current.rotation.y = currentRotation.current;
   });
 
   return (
@@ -42,9 +55,7 @@ export default function Hero3DIsland() {
         <ambientLight intensity={0.4} />
         <directionalLight position={[3, 4, 2]} intensity={1.2} castShadow />
         <Suspense fallback={null}>
-          <ScrollControls pages={2} damping={0.2}>
-            <Rotator />
-          </ScrollControls>
+          <Rotator />
           <Environment preset="city" />
         </Suspense>
         <OrbitControls enableZoom={false} enablePan={false} />

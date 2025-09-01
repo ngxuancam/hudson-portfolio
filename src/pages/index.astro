@@ -3,6 +3,7 @@ import Hero3DIsland from "../components/hero/Hero3DIsland";
 import ContactForm from "../components/contact/ContactForm";
 import "../styles/global.css";
 import Background3D from "../components/hero/Background3D";
+import ScrollHandler from "../components/layout/ScrollHandler";
 const me = {
   name: "Nguyễn Xuân Cảm (Hudson Nguyen)",
   title: "Fullstack Engineer",
@@ -24,6 +25,7 @@ const me = {
   <body class="bg-ink text-white">
     <!-- Three.js background -->
     <Background3D client:load />
+    <ScrollHandler client:load />
     <main class="max-w-5xl mx-auto px-4 py-10 space-y-16">
       <!-- Hero -->
       <section class="grid md:grid-cols-2 gap-8 items-center">
